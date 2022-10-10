@@ -41,6 +41,14 @@ def get_equipment(api: API, character: str, tab: int = 1):
         stats.name = stats_data["name"]
         item.stats = stats
 
+        if "upgrades" in equipment_tab_item:
+            upgrades = []
+            for upgrade_data in equipment_tab_item["upgrades"]:
+                upgrade = Upgrade()
+                upgrade.id = upgrade_data
+                upgrade.name = api.get_endpoint_v2(f"items/{upgrade.id}")["name"]
+                upgrades.append(upgrade)
+            item.upgrades = upgrades
         equipment.items[equipment_tab_item["slot"]] = item
 
     return equipment
@@ -85,7 +93,15 @@ class Stats:
     attributes: dict = {}
 
     def __str__(self):
-        return f"{self.name}: {self.attributes}"
+        return f"{self.name}"
+
+
+class Upgrade:
+    id: int = None
+    name: str = None
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Item:
@@ -93,9 +109,13 @@ class Item:
     name: str = "None"
     rarity: Rarity = None
     stats: Stats = None
+    upgrades: list[Upgrade] = []
 
     def __str__(self):
-        return f"{self.id}, {self.name}, {self.rarity}, {self.stats}"
+        string = f"{self.rarity} {self.stats} {self.name}"
+        if len(self.upgrades) > 0:
+            string += f" ({', '.join(f'{upgrade}' for upgrade in self.upgrades)})"
+        return string
 
 
 if __name__ == "__main__":
