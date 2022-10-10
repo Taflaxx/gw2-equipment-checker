@@ -60,7 +60,7 @@ class Equipment:
 
     def __str__(self):
         nl = "\n"
-        return f"Equipment Tab: {self.name}:\n{nl.join(f'{slot}: {item}' for slot, item in self.items.items())}"
+        return f"Equipment Name: {self.name}\n{nl.join(f'{slot}: {item}' for slot, item in self.items.items())}"
 
 
 class Rarity:
