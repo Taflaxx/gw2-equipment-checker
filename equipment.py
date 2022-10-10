@@ -12,7 +12,7 @@ def get_equipment(api: API, character: str, tab: int = 1):
         raise Exception("Equipment Tab not found")
 
     equipment = Equipment()
-    equipment.tab_name = equipment_tab_items["name"]
+    equipment.name = equipment_tab_items["name"]
     for equipment_tab_item in equipment_tab_items["equipment"]:
         item = Item()
         item.id = equipment_tab_item["id"]
@@ -47,12 +47,12 @@ def get_equipment(api: API, character: str, tab: int = 1):
 
 
 class Equipment:
-    tab_name: str = None
+    name: str = None
     items: dict = {}
 
     def __str__(self):
         nl = "\n"
-        return f"Equipment Tab: {self.tab_name}:\n{nl.join(f'{slot}: {item}' for slot, item in self.items.items())}"
+        return f"Equipment Tab: {self.name}:\n{nl.join(f'{slot}: {item}' for slot, item in self.items.items())}"
 
 
 class Rarity:
