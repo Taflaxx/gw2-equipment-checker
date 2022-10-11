@@ -13,6 +13,7 @@ def get_equipment(api: API, character: str, tab: int = 1):
 
     equipment = Equipment()
     equipment.name = equipment_tab_items["name"]
+    items = {}
     for equipment_tab_item in equipment_tab_items["equipment"]:
         item = Item()
         item.id = equipment_tab_item["id"]
@@ -49,8 +50,8 @@ def get_equipment(api: API, character: str, tab: int = 1):
                 upgrade.name = api.get_endpoint_v2(f"items/{upgrade.id}")["name"]
                 upgrades.append(upgrade)
             item.upgrades = upgrades
-        equipment.items[equipment_tab_item["slot"]] = item
-
+        items[equipment_tab_item["slot"]] = item
+    equipment.items = items
     return equipment
 
 
